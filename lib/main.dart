@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:newshopapp/screens/onboarding/onboarding_page.dart';
+import 'package:newshopapp/routes/app_router.dart';
+import 'package:newshopapp/routes/app_routes.dart';
+import 'package:newshopapp/screens/onboarding/on_boarding_page.dart';
 import 'package:newshopapp/shared/bloc_observer.dart';
 
 import 'network/local/cache_helper.dart';
@@ -20,7 +22,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return  MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: OnBoardingPage(),
+      onGenerateRoute: AppRouter.onGenerateRoute,
+      initialRoute: AppRoutes.ON_BOARDING,
     );
   }
 }

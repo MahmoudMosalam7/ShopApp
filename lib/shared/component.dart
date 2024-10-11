@@ -39,13 +39,14 @@ Widget defaultTextFormField({
   );
 }
 // to navigate and can back to prev screen
-void navigateTo(BuildContext context,Widget screen) => Navigator.push(
-    context, MaterialPageRoute(builder: (context) => screen ));
+void navigateTo(BuildContext context, String routeName) {
+  Navigator.pushNamed(context, routeName);
+}
 // this method to navigate without back to prev screen
-void navigateAndFinish(BuildContext context, Widget screen) {
-  Navigator.pushAndRemoveUntil(
+void navigateAndFinish(BuildContext context, String routeName) {
+  Navigator.pushNamedAndRemoveUntil(
     context,
-    MaterialPageRoute(builder: (context) => screen),
+    routeName,
         (Route<dynamic> route) => false,
   );
 }
