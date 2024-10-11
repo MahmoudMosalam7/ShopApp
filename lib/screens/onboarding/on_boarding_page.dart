@@ -3,6 +3,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../models/onboardingmodel.dart';
+import '../../routes/app_routes.dart';
+import '../../shared/component.dart';
 
 class OnBoardingPage extends StatefulWidget {
   const OnBoardingPage({super.key});
@@ -42,6 +44,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           TextButton(onPressed: (){
             // Navigator.pushReplacement(context, MaterialPageRoute(
             //     builder:(context) => ShopLoginScreen()));
+           navigateAndFinish(context,AppRoutes.LOGIN );
 
           },
               child: const Text('SKIP'
@@ -101,8 +104,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                       textColor: Colors.white,
                       fontSize: 16.0,
                     );
-                    // Navigator.pushReplacement(context, MaterialPageRoute(
-                    //     builder:(context) => ShopLoginScreen()));
+                  //  navigateAndFinish(context,);
                   }
                   else {
                     boardController.nextPage(duration: const Duration(
