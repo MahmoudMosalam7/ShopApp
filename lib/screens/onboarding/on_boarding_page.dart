@@ -42,8 +42,6 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       appBar: AppBar(
         actions: [
           TextButton(onPressed: (){
-            // Navigator.pushReplacement(context, MaterialPageRoute(
-            //     builder:(context) => ShopLoginScreen()));
            navigateAndFinish(context,AppRoutes.LOGIN );
 
           },
@@ -104,7 +102,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                       textColor: Colors.white,
                       fontSize: 16.0,
                     );
-                  //  navigateAndFinish(context,);
+                    navigateAndFinish(context,AppRoutes.LOGIN );
                   }
                   else {
                     boardController.nextPage(duration: const Duration(
