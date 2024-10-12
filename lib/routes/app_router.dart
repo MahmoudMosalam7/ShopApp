@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../screens/login/login_page.dart';
 import '../screens/onboarding/on_boarding_page.dart';
 import '../screens/register/register_page.dart';
+import '../screens/shop_layout/shop_layout_page.dart';
 import 'app_routes.dart';
 
 class AppRouter {
@@ -20,6 +21,10 @@ class AppRouter {
       case AppRoutes.REGISTER:
         return MaterialPageRoute(
           builder: (_) => RegisterPage(),
+        );
+      case AppRoutes.SHOP_LAYOUT:
+        return MaterialPageRoute(
+          builder: (_) => ShopLayoutPage(),
         );
       default:
         return MaterialPageRoute(

@@ -1,8 +1,7 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newshopapp/routes/app_router.dart';
 import 'package:newshopapp/routes/app_routes.dart';
-import 'package:newshopapp/screens/onboarding/on_boarding_page.dart';
 import 'package:newshopapp/shared/bloc_observer.dart';
 
 import 'network/local/cache_helper.dart';
@@ -13,20 +12,28 @@ void main() async{
   Bloc.observer = MyBlocObserver();
   DioHelper.init();
   await CacheHelper.init();
-  runApp(const MyApp());
+  String startPage;
+  bool? isOnBoarding = CacheHelper.getData(key: 'onBoarding');
+  String? token = CacheHelper.getData(key: 'token');
+  if(isOnBoarding != null){
+    if(token != null) startPage = AppRoutes.SHOP_LAYOUT;
+    else startPage = AppRoutes.LOGIN;
+  }else startPage = AppRoutes.ON_BOARDING;
+  runApp( MyApp(startPage: startPage,));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final String? startPage;
+   MyApp({this.startPage});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return  MaterialApp(
-      debugShowCheckedModeBanner: false,
-      onGenerateRoute: AppRouter.onGenerateRoute,
-      initialRoute: AppRoutes.ON_BOARDING,
-    );
+          debugShowCheckedModeBanner: false,
+          onGenerateRoute: AppRouter.onGenerateRoute,
+          initialRoute: startPage,
+        );
   }
 }
 

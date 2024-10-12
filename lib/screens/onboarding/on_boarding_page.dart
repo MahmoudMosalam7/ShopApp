@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:newshopapp/network/local/cache_helper.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../models/onboardingmodel.dart';
@@ -27,7 +28,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     ),
     Onboardingmodel(
       image:
-      'https://thumbs.dreamstime.com/z/vector-illustration-businessman-opening-store-concept-owning-shop-becoming-owner-retail-commercial-property-162490808.jpg',
+      'https://media.istockphoto.com/vectors/online-shopping-ecommerce-concept-business-order-item-store-online-on-vector-id678490880?k=6&m=678490880&s=612x612&w=0&h=GK8XVot63bij2HoEwR0J1X8_EDnFxkBJ6PNpG0UstTE=',
       title: 'On Boarding 2 Title',
       body: 'On Boarding 2 Body',
     ),
@@ -47,7 +48,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         actions: [
           defaultTextButton(
               onPressed: () {
-              navigateAndFinish(context, AppRoutes.LOGIN);
+                submit();
            },
             text: 'SKIP'
           )
@@ -98,7 +99,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                 FloatingActionButton(
                   onPressed: () {
                     if (isLast) {
-                      navigateAndFinish(context, AppRoutes.LOGIN);
+                      submit();
                     } else {
                       boardController.nextPage(
                         duration: const Duration(
@@ -157,4 +158,11 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       ),
     ],
   );
+  void submit(){
+    CacheHelper.saveData(key: 'onBoarding', value: true).then((value){
+      if(value){
+        navigateAndFinish(context, AppRoutes.LOGIN);
+      }
+    });
+  }
 }

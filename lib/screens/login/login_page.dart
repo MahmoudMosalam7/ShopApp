@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:newshopapp/network/local/cache_helper.dart';
 import 'package:newshopapp/screens/login/login_cubit.dart';
 import 'package:newshopapp/screens/login/login_states.dart';
 import 'package:newshopapp/shared/color.dart';
@@ -88,7 +89,7 @@ class LoginPage extends StatelessWidget {
                                 password: passwordContoller.text);
                           }
 
-                        }) :Center(
+                        }) :const Center(
                           child: CircularProgressIndicator(
                             color: defaultActiveColor,
                           ),
@@ -114,7 +115,21 @@ class LoginPage extends StatelessWidget {
             ),
           );
         },
-        listener: (BuildContext context, LoginStates state) {  },
+        listener: (BuildContext context, LoginStates state) {
+          if(state is LoginSuccessState){
+            if(state.loginModel.status != null && state.loginModel.status!){
+              CacheHelper.saveData(key: 'token',
+                  value: state.loginModel.data!.token!).then((value){
+                navigateAndFinish(context, AppRoutes.SHOP_LAYOUT);
+              });
+              showToast(message: state.loginModel.message!,state:
+              ToastStates.SUCCESS);
+            }else{
+              showToast(message: state.loginModel.message!,state:
+              ToastStates.ERROR);
+            }
+          }
+        },
       ),
     );
   }
