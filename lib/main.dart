@@ -6,10 +6,12 @@ import 'package:newshopapp/screens/onboarding/on_boarding_page.dart';
 import 'package:newshopapp/shared/bloc_observer.dart';
 
 import 'network/local/cache_helper.dart';
+import 'network/remote/dio_helper.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
+  DioHelper.init();
   await CacheHelper.init();
   runApp(const MyApp());
 }
