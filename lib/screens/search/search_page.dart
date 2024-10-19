@@ -5,6 +5,9 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('Search Page',style: Theme.of(context).textTheme.bodyMedium,),);;
+    return Scaffold(
+      appBar: AppBar(),
+      body: Center(child: Text('Search Page',style: Theme.of(context).textTheme.bodyMedium,),),
+    );
   }
 }
