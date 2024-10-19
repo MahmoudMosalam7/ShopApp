@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../network/local/cache_helper.dart';
+import '../routes/app_routes.dart';
 import 'color.dart';
 Widget myDivider() => const Padding(
   padding: EdgeInsets.all(20.0),
@@ -121,6 +123,11 @@ Widget defaultTextButton( {
           color: activeColor,
       ),
     ));
+void signOut(context){
+  CacheHelper.removeData(key: 'token').then((value){
+    navigateAndFinish(context, AppRoutes.LOGIN);
+  });
+}
 // to navigate and can back to prev screen
 void navigateTo(BuildContext context, String routeName) {
   Navigator.pushNamed(context, routeName);
