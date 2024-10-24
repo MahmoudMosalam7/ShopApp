@@ -9,6 +9,7 @@ import 'package:newshopapp/screens/products/products_page.dart';
 import 'package:newshopapp/screens/settings/settings_page.dart';
 import 'package:newshopapp/screens/shop_layout/shop_states.dart';
 
+import '../../models/categories_model.dart';
 import '../../shared/component.dart';
 
 class ShopCubit extends Cubit<ShopStates>{
@@ -38,6 +39,20 @@ class ShopCubit extends Cubit<ShopStates>{
     }).catchError((error){
       printFullText(error.toString());
       emit(ShopErrorHomeDataState());
+    });
+  }
+  CategoriesModel? categoriesModel;
+  void getCategoriesData(){
+    emit(ShopLoadingHomeDataState());
+    DioHelper.getData(
+        url: GET_CATEGORIES,
+        token:token
+    ).then((value){
+      categoriesModel = CategoriesModel.fromJson(value.data);
+      emit(ShopSuccessCategoriesDataState());
+    }).catchError((error){
+      printFullText(error.toString());
+      emit(ShopErrorCategoriesDataState());
     });
   }
 }

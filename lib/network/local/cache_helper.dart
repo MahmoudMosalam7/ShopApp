@@ -27,19 +27,4 @@ class CacheHelper {
     return await sharedPreferences!.remove(key);
   }
 
-  static bool? getBool({required String key}) {
-    return sharedPreferences!.getBool(key);
-  }
-
-  static Future<String?> getString({required String key}) async {
-    return sharedPreferences!.getString(key);
-  }
-
-  static Future<int?> getInt({required String key}) async {
-    return sharedPreferences!.getInt(key);
-  }
-
-  static Future<double?> getDouble({required String key}) async {
-    return sharedPreferences!.getDouble(key);
-  }
 }

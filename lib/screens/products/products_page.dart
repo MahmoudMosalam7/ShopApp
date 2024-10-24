@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:newshopapp/models/categories_model.dart';
 import 'package:newshopapp/models/home_model.dart';
 import 'package:newshopapp/screens/shop_layout/shop_cubit.dart';
 import 'package:newshopapp/screens/shop_layout/shop_states.dart';
@@ -14,8 +15,8 @@ class ProductsPage extends StatelessWidget {
     return BlocConsumer<ShopCubit,ShopStates>(
       builder: (BuildContext context, ShopStates state) {
         var cubit = ShopCubit.get(context);
-        return cubit.homeModel != null ?
-        productsBuilder(cubit.homeModel) :
+        return cubit.homeModel != null && cubit.categoriesModel != null ?
+        productsBuilder(cubit.homeModel,cubit.categoriesModel) :
         const Center(child: CircularProgressIndicator(
           color: defaultActiveColor,
         ),
@@ -23,48 +24,117 @@ class ProductsPage extends StatelessWidget {
       },
       listener: (BuildContext context, ShopStates state) {  },);
   }
-  Widget productsBuilder(HomeModel? model) =>  SingleChildScrollView(
-    physics: const BouncingScrollPhysics(),
-    child: Column(
-      children: [
-        CarouselSlider(
-          items: model!.data!.banners!.map((e)=>Image(
-            image: NetworkImage('${e.image}'),
-            width: double.infinity,
-            fit: BoxFit.cover,
-          )).toList(),
-          options: CarouselOptions(
-            height: 250.0,
-            initialPage: 0,
-            viewportFraction: 1.0,
-            enableInfiniteScroll: true,
-            reverse: false,
-            autoPlay: true,
-            autoPlayAnimationDuration: const Duration(seconds: 1),
-            autoPlayInterval: const Duration(seconds: 3),
-            autoPlayCurve: Curves.fastOutSlowIn,
-            scrollDirection: Axis.horizontal
-          ),
-        ),
-        const SizedBox(height: 10.0,),
-        Container(
-          color: Colors.grey[300],
-          child: GridView.count(
+  Widget productsBuilder(HomeModel? model,CategoriesModel? categoriesModel) =>
+      SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CarouselSlider(
+              items: model!.data!.banners!
+                  .map((e) => Image(
+                        image: NetworkImage('${e.image}'),
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ))
+                  .toList(),
+              options: CarouselOptions(
+                  height: 250.0,
+                  initialPage: 0,
+                  viewportFraction: 1.0,
+                  enableInfiniteScroll: true,
+                  reverse: false,
+                  autoPlay: true,
+                  autoPlayAnimationDuration: const Duration(seconds: 1),
+                  autoPlayInterval: const Duration(seconds: 3),
+                  autoPlayCurve: Curves.fastOutSlowIn,
+                  scrollDirection: Axis.horizontal),
+            ),
+            const SizedBox(
+              height: 10.0,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Categories",
+                    style:
+                        TextStyle(fontSize: 24.0, fontWeight: FontWeight.w800),
+                  ),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  SizedBox(
+                    height: 100.0,
+                    child: ListView.separated(
+                      physics: const BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) => buildCategoryItem(
+                          categoriesModel.data!.data![index]
+                      ),
+                      separatorBuilder: (context, index) => const SizedBox(
+                        width: 20.0,
+                      ),
+                      itemCount: categoriesModel!.data!.data!.length,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  const Text(
+                    "New Products",
+                    style:
+                        TextStyle(fontSize: 24.0, fontWeight: FontWeight.w800),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 10.0,
+            ),
+            Container(
+              color: Colors.grey[300],
+              child: GridView.count(
                 crossAxisCount: 2,
                 shrinkWrap: true,
                 mainAxisSpacing: 1.0,
                 crossAxisSpacing: 1.0,
-                childAspectRatio: 1/1.58,
+                childAspectRatio: 1 / 1.58,
                 physics: const NeverScrollableScrollPhysics(),
                 children: List.generate(
-                    model.data!.products!.length,
-                    (index) => buildGridProducts(model.data!.products![index]),
+                  model.data!.products!.length,
+                  (index) => buildGridProducts(model.data!.products![index]),
                 ),
+              ),
             ),
+          ],
         ),
-
-      ],
-    ),
+      );
+  Widget buildCategoryItem(DataModel dataModel) => Stack(
+      alignment: AlignmentDirectional.bottomCenter,
+      children: [
+        Image(
+         image: NetworkImage(dataModel.image!),
+         width: 100.0,
+         height: 100.0,
+          fit: BoxFit.cover,
+          ),
+        Container(
+         color: Colors.black.withOpacity(0.8),
+         width: 100.0,
+         child: Text(
+           dataModel.name!,
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+            color: Colors.white
+          ),
+        )
+      )
+    ],
   );
   Widget buildGridProducts(ProductsModel? model) => Container(
     color: Colors.white,
