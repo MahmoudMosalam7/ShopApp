@@ -128,6 +128,11 @@ void signOut(context){
     navigateAndFinish(context, AppRoutes.LOGIN);
   });
 }
+void printFullText(String text){
+  final pattern = RegExp('.{1,800}');
+  pattern.allMatches(text).forEach((match) => debugPrint(match.group(0)));
+}
+String token = '';
 // to navigate and can back to prev screen
 void navigateTo(BuildContext context, String routeName) {
   Navigator.pushNamed(context, routeName);

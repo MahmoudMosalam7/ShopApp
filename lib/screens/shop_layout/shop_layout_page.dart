@@ -12,11 +12,7 @@ class ShopLayoutPage extends StatelessWidget {
  //ShopCubit
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (context) => ShopCubit()),
-        ],
-        child: BlocConsumer<ShopCubit,ShopStates>(
+    return  BlocConsumer<ShopCubit,ShopStates>(
           builder: (BuildContext context, ShopStates state) {
             var cubit = ShopCubit.get(context);
             return Scaffold(
@@ -28,7 +24,7 @@ class ShopLayoutPage extends StatelessWidget {
                       onPressed: (){
                         navigateTo(context, AppRoutes.SEARCH);
                       },
-                      icon: Icon(Icons.search)
+                      icon: const Icon(Icons.search)
                   )
                 ],
               ),
@@ -66,7 +62,7 @@ class ShopLayoutPage extends StatelessWidget {
               ) ,
             );
           },
-          listener: (BuildContext context, ShopStates state) {  },)
+          listener: (BuildContext context, ShopStates state) {  },
     );
   }
 }
