@@ -16,8 +16,14 @@ void main() async{
   String startPage;
   bool? isOnBoarding = CacheHelper.getData(key: 'onBoarding');
   token = CacheHelper.getData(key: 'token');
-  if(isOnBoarding != null){
-    startPage = AppRoutes.SHOP_LAYOUT;
+  if(isOnBoarding != null ){
+    if(token != null){
+
+      startPage = AppRoutes.SHOP_LAYOUT;
+    }else{
+
+      startPage = AppRoutes.LOGIN;
+    }
   }else {
     startPage = AppRoutes.ON_BOARDING;
   }
@@ -38,6 +44,7 @@ class MyApp extends StatelessWidget {
                 ..getHomeData()
                 ..getCategoriesData()
                 ..getFavoritesData()
+                ..getUserData()
           ),
         ],
         child: MaterialApp(

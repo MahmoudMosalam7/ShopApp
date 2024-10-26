@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newshopapp/models/home_model.dart';
+import 'package:newshopapp/models/login_model.dart';
 import 'package:newshopapp/network/end_points.dart';
 import 'package:newshopapp/network/remote/dio_helper.dart';
 import 'package:newshopapp/screens/categories/categories_page.dart';
@@ -22,7 +23,7 @@ class ShopCubit extends Cubit<ShopStates>{
     const ProductsPage(),
     const CategoriesPage(),
     const FavoritesPage(),
-    const SettingsPage()
+     SettingsPage()
   ];
   void changeBottom(int index){
     currentIndex = index;
@@ -105,6 +106,21 @@ class ShopCubit extends Cubit<ShopStates>{
     }).catchError((error){
       printFullText(error.toString());
       emit(ShopErrorGetFavoritesDataState());
+    });
+  }
+
+  ShopLoginModel? userModel;
+  void getUserData(){
+    emit(ShopLoadingGetProfileDataState());
+    DioHelper.getData(
+        url: PROFILE,
+        token:token
+    ).then((value){
+      userModel = ShopLoginModel.fromJson(value.data);
+      emit(ShopSuccessGetProfileDataState(userModel: userModel));
+    }).catchError((error){
+      printFullText(error.toString());
+      emit(ShopErrorGetProfileDataState());
     });
   }
 }

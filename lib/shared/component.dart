@@ -20,7 +20,7 @@ Widget defaultButton({
   double width = double.infinity,        // Default width is full width of parent
   double height = 40.0,                  // Default height is 40
 }) {
-  return Container(
+  return SizedBox(
     width: width,
     height: height,
     child: ElevatedButton(
@@ -132,7 +132,7 @@ void printFullText(String text){
   final pattern = RegExp('.{1,800}');
   pattern.allMatches(text).forEach((match) => debugPrint(match.group(0)));
 }
-String token = '';
+String? token = '';
 // to navigate and can back to prev screen
 void navigateTo(BuildContext context, String routeName) {
   Navigator.pushNamed(context, routeName);

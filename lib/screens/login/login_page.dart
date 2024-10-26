@@ -16,6 +16,8 @@ class LoginPage extends StatelessWidget {
 
   var formKey = GlobalKey<FormState>();
 
+  LoginPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -118,6 +120,7 @@ class LoginPage extends StatelessWidget {
         listener: (BuildContext context, LoginStates state) {
           if(state is LoginSuccessState){
             if(state.loginModel.status != null && state.loginModel.status!){
+              token = state.loginModel.data!.token!;
               CacheHelper.saveData(key: 'token',
                   value: state.loginModel.data!.token!).then((value){
                 navigateAndFinish(context, AppRoutes.SHOP_LAYOUT);

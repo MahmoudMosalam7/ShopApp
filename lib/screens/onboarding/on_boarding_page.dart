@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:newshopapp/network/local/cache_helper.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -109,11 +108,11 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                       );
                     }
                   },
+                  backgroundColor: Colors.redAccent,
                   child: const Icon(
                     Icons.arrow_forward_ios,
                     color: Colors.white,
                   ),
-                  backgroundColor: Colors.redAccent,
                 ),
               ],
             ),
