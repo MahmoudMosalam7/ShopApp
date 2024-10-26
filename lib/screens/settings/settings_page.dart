@@ -8,8 +8,12 @@ import '../../shared/color.dart';
 
 class SettingsPage extends StatelessWidget {
   TextEditingController nameController = TextEditingController();
+
   TextEditingController emailController = TextEditingController();
+
   TextEditingController phoneController = TextEditingController();
+
+  var formKey = GlobalKey<FormState>();
 
   SettingsPage({super.key});
   @override
@@ -23,54 +27,73 @@ class SettingsPage extends StatelessWidget {
         phoneController.text = cubit.userModel!.data!.phone!;
         return cubit.userModel != null ? Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              defaultTextFormField(
-                  controller: nameController,
-                  type: TextInputType.name,
-                  validate: (String? value){
-                    if(value!.isEmpty){
-                      return "name must not be empty";
-                    }
-                    return null;
-                  },
-                  label: "Name",
-                  prefix: Icons.person
-              ),
-              const SizedBox(height: 20.0,),
-              defaultTextFormField(
-                  controller: emailController,
-                  type: TextInputType.emailAddress,
-                  validate: (String? value){
-                    if(value!.isEmpty){
-                      return "email address must not be empty";
-                    }
-                    return null;
-                  },
-                  label: "Email Address",
-                  prefix: Icons.email
-              ),
-              const SizedBox(height: 20.0,),
-              defaultTextFormField(
-                  controller: phoneController,
-                  type: TextInputType.phone,
-                  validate: (String? value){
-                    if(value!.isEmpty){
-                      return "phone  must not be empty";
-                    }
-                    return null;
-                  },
-                  label: "Phone Number",
-                  prefix: Icons.phone
-              ),
-              const SizedBox(height: 20.0,),
-              defaultButton(
-                  onPressed: (){
-                    signOut(context);
-                  },
-                  text: "Logout"
-              ),
-            ],
+          child: Form(
+            key: formKey,
+            child: Column(
+              children: [
+                if(state is ShopLoadingUpdateUserState)
+                const LinearProgressIndicator(color: defaultActiveColor,),
+                const SizedBox(height: 20.0,),
+                defaultTextFormField(
+                    controller: nameController,
+                    type: TextInputType.name,
+                    validate: (String? value){
+                      if(value!.isEmpty){
+                        return "name must not be empty";
+                      }
+                      return null;
+                    },
+                    label: "Name",
+                    prefix: Icons.person
+                ),
+                const SizedBox(height: 20.0,),
+                defaultTextFormField(
+                    controller: emailController,
+                    type: TextInputType.emailAddress,
+                    validate: (String? value){
+                      if(value!.isEmpty){
+                        return "email address must not be empty";
+                      }
+                      return null;
+                    },
+                    label: "Email Address",
+                    prefix: Icons.email
+                ),
+                const SizedBox(height: 20.0,),
+                defaultTextFormField(
+                    controller: phoneController,
+                    type: TextInputType.phone,
+                    validate: (String? value){
+                      if(value!.isEmpty){
+                        return "phone  must not be empty";
+                      }
+                      return null;
+                    },
+                    label: "Phone Number",
+                    prefix: Icons.phone
+                ),
+                const SizedBox(height: 20.0,),
+                defaultButton(
+                    onPressed: (){
+                      if(formKey.currentState!.validate()){
+                        cubit.updateUserData(
+                            name: nameController.text,
+                            email: emailController.text,
+                            phone: phoneController.text
+                        );
+                      }
+                    },
+                    text: "Update"
+                ),
+                const SizedBox(height: 20.0,),
+                defaultButton(
+                    onPressed: (){
+                      signOut(context);
+                    },
+                    text: "Logout"
+                ),
+              ],
+            ),
           ),
         ) :
         const Center(child: CircularProgressIndicator(

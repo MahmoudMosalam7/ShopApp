@@ -18,6 +18,8 @@ class RegisterPage extends StatelessWidget {
 
   var formKey = GlobalKey<FormState>();
 
+  RegisterPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

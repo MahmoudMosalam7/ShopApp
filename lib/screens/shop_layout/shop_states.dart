@@ -43,3 +43,13 @@ class ShopSuccessGetProfileDataState extends ShopStates {
 }
 
 class ShopErrorGetProfileDataState extends ShopStates {}
+
+class ShopLoadingUpdateUserState extends ShopStates {}
+
+class ShopSuccessUpdateUserState extends ShopStates {
+  final ShopLoginModel? userModel;
+
+  ShopSuccessUpdateUserState({required this.userModel});
+}
+
+class ShopErrorUpdateUserState extends ShopStates {}
