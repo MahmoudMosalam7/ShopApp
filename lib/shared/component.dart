@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import '../network/local/cache_helper.dart';
 import '../routes/app_routes.dart';
+import '../screens/shop_layout/shop_cubit.dart';
 import 'color.dart';
 Widget myDivider() => const Padding(
   padding: EdgeInsets.all(20.0),
@@ -156,6 +157,105 @@ void showToast({
     backgroundColor: chooseToastColor(state),
     textColor: Colors.white,
     fontSize: 16.0
+);
+Widget buildListProductItem(
+    product,
+    context,
+    {
+      isOldPrice = true
+    }
+    ) => Padding(
+  padding: const EdgeInsets.all(20.0),
+  child: SizedBox(
+    height: 120.0,
+    child: Row(
+      children: [
+        Stack(
+            alignment: AlignmentDirectional.bottomStart,
+            children:[
+              Image(
+                image: NetworkImage(product!.image!),
+                width: 120.0,
+                height: 120.0,
+                fit: BoxFit.cover,
+              ),
+              if(product.discount != 0 && isOldPrice == true)
+                Container(
+                  color: defaultActiveColor,
+                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                  child: const Text(
+                    'DISCOUNT',
+                    style: TextStyle(
+                        fontSize: 8.0,
+                        color: Colors.white
+                    ),
+                  ),
+                )
+            ]
+        ),
+        const SizedBox(width: 20.0,),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                product.name!,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 14.0,
+                  height: 1.3,
+                ),
+              ),
+              const Spacer(),
+              Row(
+                children: [
+                  Text(
+                    product.price.toString(),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        fontSize: 12.0,
+                        color: defaultActiveColor
+                    ),
+                  ),
+                  const SizedBox(width: 5.0,),
+                  if(product.discount != 0 && isOldPrice == true)
+                    Text(
+                      product.oldPrice.toString(),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          fontSize: 10.0,
+                          color: defaultInactiveColor,
+                          decoration: TextDecoration.lineThrough
+                      ),
+                    ),
+                  const Spacer(),
+                  IconButton(
+                      onPressed: (){
+                        ShopCubit.get(context).changeFavorites(product.id!);
+                      },
+                      icon:  CircleAvatar(
+                        radius: 15.0,
+                        backgroundColor:ShopCubit.get(context)
+                            .favorites[product.id] == true ? defaultActiveColor
+                            : defaultInactiveColor,
+                        child: const Icon(
+                          Icons.favorite_border,
+                          size: 14.0,
+                          color: Colors.white,
+                        ),
+                      )
+                  )
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  ),
 );
 // enum
 enum ToastStates {SUCCESS,ERROR,WARNING}

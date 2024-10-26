@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newshopapp/screens/register/register_states.dart';
@@ -25,13 +24,10 @@ class RegisterCubit extends Cubit<RegisterStates>{
       'password': password
     }).then((value)
     {
-      print(value.data);
       loginModel = ShopLoginModel.fromJson(value.data);
-      print(loginModel);
       emit(RegisterSuccessState(loginModel!));
     }
     ).catchError((error){
-      print(error);
       emit(RegisterErrorState(error.toString()));
     });
   }

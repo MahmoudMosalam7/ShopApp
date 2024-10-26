@@ -16,11 +16,11 @@ class AppRouter {
     switch (settings.name) {
       case AppRoutes.CATEGORIES:
         return MaterialPageRoute(
-          builder: (_) => CategoriesPage(),
+          builder: (_) => const CategoriesPage(),
         );
       case AppRoutes.FAVORITES:
         return MaterialPageRoute(
-          builder: (_) => FavoritesPage(),
+          builder: (_) => const FavoritesPage(),
         );
       case AppRoutes.LOGIN:
         return MaterialPageRoute(
@@ -28,11 +28,11 @@ class AppRouter {
         );
       case AppRoutes.ON_BOARDING:
         return MaterialPageRoute(
-          builder: (_) => OnBoardingPage(),
+          builder: (_) => const OnBoardingPage(),
         );
       case AppRoutes.PRODUCTS:
         return MaterialPageRoute(
-          builder: (_) => ProductsPage(),
+          builder: (_) => const ProductsPage(),
         );
       case AppRoutes.REGISTER:
         return MaterialPageRoute(
@@ -48,13 +48,13 @@ class AppRouter {
         );
       case AppRoutes.SHOP_LAYOUT:
         return MaterialPageRoute(
-          builder: (_) => ShopLayoutPage(),
+          builder: (_) => const ShopLayoutPage(),
         );
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
-            appBar: AppBar(title: Text('Not Found')),
-            body: Center(child: Text('Page not found')),
+            appBar: AppBar(title: const Text('Not Found')),
+            body: const Center(child: Text('Page not found')),
           ),
         );
     }

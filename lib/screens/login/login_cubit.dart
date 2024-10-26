@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newshopapp/network/end_points.dart';
@@ -21,13 +20,10 @@ class LoginCubit extends Cubit<LoginStates>{
       'password': password
     }).then((value)
     {
-      print(value.data);
       loginModel = ShopLoginModel.fromJson(value.data);
-      print(loginModel);
       emit(LoginSuccessState(loginModel!));
     }
     ).catchError((error){
-      print(error);
       emit(LoginErrorState(error.toString()));
     });
   }

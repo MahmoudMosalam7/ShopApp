@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:newshopapp/routes/app_router.dart';
 import 'package:newshopapp/routes/app_routes.dart';
+import 'package:newshopapp/screens/search/search_cubit.dart';
 import 'package:newshopapp/screens/shop_layout/shop_cubit.dart';
 import 'package:newshopapp/shared/bloc_observer.dart';
 import 'package:newshopapp/shared/component.dart';
@@ -45,6 +46,9 @@ class MyApp extends StatelessWidget {
                 ..getCategoriesData()
                 ..getFavoritesData()
                 ..getUserData()
+          ),
+          BlocProvider(
+              create: (context) => SearchCubit()
           ),
         ],
         child: MaterialApp(
