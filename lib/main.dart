@@ -5,7 +5,6 @@ import 'package:newshopapp/routes/app_routes.dart';
 import 'package:newshopapp/screens/shop_layout/shop_cubit.dart';
 import 'package:newshopapp/shared/bloc_observer.dart';
 import 'package:newshopapp/shared/component.dart';
-
 import 'network/local/cache_helper.dart';
 import 'network/remote/dio_helper.dart';
 
@@ -38,6 +37,7 @@ class MyApp extends StatelessWidget {
               create: (context) => ShopCubit()
                 ..getHomeData()
                 ..getCategoriesData()
+                ..getFavoritesData()
           ),
         ],
         child: MaterialApp(

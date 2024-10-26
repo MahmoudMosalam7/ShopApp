@@ -6,6 +6,7 @@ import 'package:newshopapp/models/home_model.dart';
 import 'package:newshopapp/screens/shop_layout/shop_cubit.dart';
 import 'package:newshopapp/screens/shop_layout/shop_states.dart';
 import 'package:newshopapp/shared/color.dart';
+import 'package:newshopapp/shared/component.dart';
 
 class ProductsPage extends StatelessWidget {
   const ProductsPage({super.key});
@@ -16,15 +17,24 @@ class ProductsPage extends StatelessWidget {
       builder: (BuildContext context, ShopStates state) {
         var cubit = ShopCubit.get(context);
         return cubit.homeModel != null && cubit.categoriesModel != null ?
-        productsBuilder(cubit.homeModel,cubit.categoriesModel) :
+        productsBuilder(cubit.homeModel,cubit.categoriesModel,context) :
         const Center(child: CircularProgressIndicator(
           color: defaultActiveColor,
         ),
         );
       },
-      listener: (BuildContext context, ShopStates state) {  },);
+      listener: (BuildContext context, ShopStates state) {
+        if(state is ShopSuccessChangeFavoritesState){
+          if(!state.model!.status!){
+            showToast(message: state.model!.message!,
+                state: ToastStates.ERROR
+            );
+          }
+        }
+      },
+    );
   }
-  Widget productsBuilder(HomeModel? model,CategoriesModel? categoriesModel) =>
+  Widget productsBuilder(HomeModel? model,CategoriesModel? categoriesModel,context) =>
       SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
@@ -105,7 +115,7 @@ class ProductsPage extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 children: List.generate(
                   model.data!.products!.length,
-                  (index) => buildGridProducts(model.data!.products![index]),
+                  (index) => buildGridProducts(model.data!.products![index],context),
                 ),
               ),
             ),
@@ -136,7 +146,7 @@ class ProductsPage extends StatelessWidget {
       )
     ],
   );
-  Widget buildGridProducts(ProductsModel? model) => Container(
+  Widget buildGridProducts(ProductsModel? model,context) => Container(
     color: Colors.white,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,6 +158,7 @@ class ProductsPage extends StatelessWidget {
               image: NetworkImage('${model!.image}'),
               width: double.infinity,
               height: 200.0,
+              fit: BoxFit.cover,
             ),
             if(model.discount != 0)
             Container(
@@ -202,11 +213,20 @@ class ProductsPage extends StatelessWidget {
                   ),
                   const Spacer(),
                   IconButton(
-                      onPressed: (){},
-                      padding: EdgeInsets.zero,
-                      icon: const Icon(
-                        Icons.favorite_border,
-                        size: 14.0,
+                      onPressed: (){
+                        printFullText(model.id.toString());
+                        ShopCubit.get(context).changeFavorites(model.id!);
+                      },
+                      icon:  CircleAvatar(
+                        radius: 15.0,
+                        backgroundColor: ShopCubit.get(context).favorites[model.id] == true
+                            ? defaultActiveColor
+                                : defaultInactiveColor,
+                        child: const Icon(
+                          Icons.favorite_border,
+                          size: 14.0,
+                          color: Colors.white,
+                        ),
                       )
                   )
                 ],

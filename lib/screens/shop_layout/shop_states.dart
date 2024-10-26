@@ -1,3 +1,5 @@
+import 'package:newshopapp/models/change_favorites_model.dart';
+
 abstract class ShopStates {}
 
 class ShopInitialState extends ShopStates {}
@@ -13,3 +15,20 @@ class ShopErrorHomeDataState extends ShopStates {}
 class ShopSuccessCategoriesDataState extends ShopStates {}
 
 class ShopErrorCategoriesDataState extends ShopStates {}
+
+class ShopChangeFavoritesState extends ShopStates {}
+
+class ShopSuccessChangeFavoritesState extends ShopStates {
+
+  final ChangeFavoritesModel? model;
+  ShopSuccessChangeFavoritesState(this.model);
+}
+
+class ShopErrorChangeFavoritesState extends ShopStates {}
+
+
+class ShopLoadingGetFavoritesDataState extends ShopStates {}
+
+class ShopSuccessGetFavoritesDataState extends ShopStates {}
+
+class ShopErrorGetFavoritesDataState extends ShopStates {}
