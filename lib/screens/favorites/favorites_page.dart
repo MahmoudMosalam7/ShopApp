@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:newshopapp/models/favorites_model.dart';
 
 import '../../shared/color.dart';
 import '../../shared/component.dart';
